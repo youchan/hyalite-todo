@@ -1,0 +1,21 @@
+!!!
+%html(lang="en" data-framework="hyalite")
+  %head
+    %meta(charset="utf-8")
+    %title Hyalite • TodoMVC
+    %link(rel="stylesheet" href="node_modules/todomvc-common/base.css")
+    %link(rel="stylesheet" href="node_modules/todomvc-app-css/index.css")
+
+  %body
+    %section.todoapp
+      %header.header
+    %footer.info
+      %p Double-click to edit a todo
+      %p
+        Created by
+        %a(href="http://github.com/youchan/") youchan
+      %p
+        Part of
+        %a(href="http://todomvc.com") TodoMVC
+
+    = javascript_include_tag 'application'

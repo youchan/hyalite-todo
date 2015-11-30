@@ -1,0 +1,55 @@
+GIT
+  remote: git://github.com/adambeynon/opal-router.git
+  revision: bc8c242510794ecbb842b52423732f2ec55c2a1e
+  specs:
+    opal-router (0.0.1)
+      opal (>= 0.3.44)
+
+GIT
+  remote: git://github.com/opal/opal-haml.git
+  revision: 204ac706b0bf3aa09fc2f10851a57d8427a24698
+  specs:
+    opal-haml (0.4.0)
+      haml
+      opal (>= 0.5.0, < 1.0.0)
+
+GIT
+  remote: git://github.com/youchan/hyalite.git
+  revision: 594e2072fe88e718a8276789432e411856b43396
+  specs:
+    hyalite (0.0.1)
+      opal
+      opal-browser
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    haml (4.0.7)
+      tilt
+    hike (1.2.3)
+    opal (0.8.0)
+      hike (~> 1.2)
+      sourcemap (~> 0.1.0)
+      sprockets (~> 3.1)
+      tilt (>= 1.4)
+    opal-browser (0.2.0)
+      opal
+      paggio
+    paggio (0.2.4)
+    rack (1.6.4)
+    sourcemap (0.1.1)
+    sprockets (3.3.4)
+      rack (~> 1.0)
+    tilt (2.0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hyalite!
+  opal-browser
+  opal-haml!
+  opal-router!
+
+BUNDLED WITH
+   1.10.6
