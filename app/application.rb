@@ -19,7 +19,7 @@ class TodoApp
   include Hyalite::Component
   include Hyalite::Component::ShortHand
 
-  def get_initial_state
+  def initial_state
     {
       nowShowing: :all,
       editing: nil,
