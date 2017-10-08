@@ -1,6 +1,5 @@
 class TodoFooter
   include Hyalite::Component
-  include Hyalite::Component::ShortHand
 
   def render
     active_todo_word = @props[:count] == 1 ? 'item' : 'items'

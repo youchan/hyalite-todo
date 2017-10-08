@@ -17,7 +17,6 @@ end
 
 class TodoApp
   include Hyalite::Component
-  include Hyalite::Component::ShortHand
 
   def initial_state
     {
@@ -35,9 +34,9 @@ class TodoApp
   end
 
   def handle_new_todo_key_down(event)
-    return unless event.code == 13
+    return unless event.code == :Enter
 
-    event.prevent
+    event.prevent_default
 
     val = @state[:newTodo].strip
 

@@ -1,6 +1,5 @@
 class TodoItem
   include Hyalite::Component
-  include Hyalite::Component::ShortHand
 
   ESCAPE_KEY = 27
   ENTER_KEY = 13
@@ -64,9 +63,10 @@ class TodoItem
         ref: "editField",
         className: "edit",
         value: @state[:editText],
-        onBlur: -> (event) { handle_submit(event) },
-        onChange: -> (event) { handle_change(event) },
-        onKeyDown: -> (event) { handle_key_down(event) }
+        onBlur: method(:handle_submit),
+        onChange: method(:handle_change),
+        onKeyDown: method(:handle_key_down),
+        onFocusOut: method(:handle_focus_out)
       })
     )
   end
