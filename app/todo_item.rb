@@ -20,12 +20,14 @@ class TodoItem
   end
 
   def handle_key_down(event)
-    if event.code == ESCAPE_KEY
-      set_state(editText: @props[:todo].title)
-      @props[:onCancel].call(event)
-    elsif event.code === ENTER_KEY
+    if event.code === :Enter
       handle_submit(event)
     end
+  end
+
+  def handle_focus_out(event)
+    set_state(editText: @props[:todo].title)
+    @props[:onCancel].call(event)
   end
 
   def handle_change(event)
@@ -40,7 +42,7 @@ class TodoItem
 
   def component_did_update(prev_props)
     if !prev_props[:editing] && @props[:editing]
-      node = Hyalite.find_dom_node(@refs[:editField])
+      node = @refs[:editField]
       `node.native.focus()`
       `node.native.setSelectionRange(node.native.value.length, node.native.value.length)`
     end
