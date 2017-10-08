@@ -17,7 +17,7 @@ GEM
       temple (>= 0.8.0)
       tilt
     hike (1.2.3)
-    hyalite (0.2.1)
+    hyalite (0.2.2)
       opal
     multi_json (1.12.2)
     mustermann (1.0.1)
