@@ -1,11 +1,8 @@
 class TodoItem
   include Hyalite::Component
 
-  ESCAPE_KEY = 27
-  ENTER_KEY = 13
-
   def handle_submit(event)
-    val = @state[:editText].strip
+    val = @state.editText.strip
     if val
       @props[:onSave].call(val)
       set_state(editText: val)
@@ -36,11 +33,11 @@ class TodoItem
     end
   end
 
-  def get_initial_state
+  def initial_state
     { editText: @props[:todo].title }
   end
 
-  def component_did_update(prev_props)
+  after_update do |prev_props|
     if !prev_props[:editing] && @props[:editing]
       node = @refs[:editField]
       `node.native.focus()`
@@ -49,22 +46,22 @@ class TodoItem
   end
 
   def render
-    li({ className: [ @props[:todo].completed ? 'completed' : '',
+    li({ class: [ @props[:todo].completed ? 'completed' : '',
                                                 @props[:editing] ? 'editing' : '' ].join },
-      div({ className: "view" },
+      div({ class: "view" },
         input({
-          className: "toggle",
+          class: "toggle",
           type: "checkbox",
           checked: @props[:todo].completed,
-          onChange: -> (event) { @props[:onToggle].call(event) }
+          onChange: @props[:onToggle]
         }),
-        label({ onDoubleClick: -> { handle_edit } }, @props[:todo].title),
-        button({ className: "destroy", onClick: -> (event) { @props[:onDestroy].call(event) } })
+        label({ onDoubleClick: method(:handle_edit) }, @props[:todo].title),
+        button({ class: "destroy", onClick: @props[:onDestroy] })
       ),
       input({
         ref: "editField",
-        className: "edit",
-        value: @state[:editText],
+        class: "edit",
+        value: @state.editText,
         onBlur: method(:handle_submit),
         onChange: method(:handle_change),
         onKeyDown: method(:handle_key_down),

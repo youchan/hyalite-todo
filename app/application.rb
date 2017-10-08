@@ -7,7 +7,7 @@ require_relative 'todo_footer'
 
 module App
   def self.render
-    Hyalite.render(Hyalite.create_element(TodoApp, {model: model}), $document['.todoapp'])
+    Hyalite.render(TodoApp.el({model: model}), $document['.todoapp'])
   end
 
   def self.model
@@ -18,15 +18,11 @@ end
 class TodoApp
   include Hyalite::Component
 
-  def initial_state
-    {
-      nowShowing: :all,
-      editing: nil,
-      newTodo: ''
-    }
-  end
+  state :nowShowing, :all
+  state :editing, nil
+  state :newTodo, ''
 
-  def component_did_mount
+  after_mount do
     router = Router.new
     router.route('/') { set_state({nowShowing: :all}) }
     router.route('/active') { set_state({nowShowing: :active}) }
@@ -38,7 +34,7 @@ class TodoApp
 
     event.prevent_default
 
-    val = @state[:newTodo].strip
+    val = @state.newTodo.strip
 
     if val
       @props[:model] << val
@@ -59,7 +55,7 @@ class TodoApp
     todos = @props[:model].todos
 
     shown_todos = todos.select do |todo|
-      case @state[:nowShowing]
+      case @state.nowShowing
       when :active
         !todo.completed
       when :completed
@@ -76,7 +72,7 @@ class TodoApp
         onToggle: -> { @props[:model].toggle(todo) },
         onDestroy: -> { @props[:model].destroy(todo) },
         onEdit: -> { set_state(editing: todo.id) },
-        editing: @state[:editing] == todo.id,
+        editing: @state.editing == todo.id,
         onSave: -> (text) { save(todo, text) },
         onCancel: -> { set_state(editing: nil) }
       })
@@ -87,35 +83,35 @@ class TodoApp
 
     if todos.any?
       main =
-        section({ className: "main" },
+        section({ class: "main" },
           input({
-            className: "toggle-all",
+            class: "toggle-all",
             type: "checkbox",
             onChange: -> (event) { @props[:model].toggle_all(event.target.checked?) },
             checked: active_todo_count == 0
           }),
-          ul({ className: "todo-list" }, todo_items)
+          ul({ class: "todo-list" }, todo_items)
         )
 
       footer =
         TodoFooter.el({
           count: active_todo_count,
           completedCount: completed_count,
-          nowShowing: self.state[:nowShowing],
+          nowShowing: @state.nowShowing,
           onClearCompleted: -> { @props[:model].clear_completed }
         })
     end
 
     div(nil,
-      header({className: 'header'},
+      header({class: 'header'},
         h1(nil, "todos"),
         input({
-          className:'new-todo',
-          placeholder:'What needs to be done?',
-          autofocus:true,
-          onKeyDown: -> (event) { handle_new_todo_key_down(event) },
-          onChange: -> (event) { handle_change(event) },
-          value: @state[:newTodo]
+          class: 'new-todo',
+          placeholder: 'What needs to be done?',
+          autofocus: true,
+          onKeyDown: method(:handle_new_todo_key_down),
+          onChange: method(:handle_change),
+          value: @state.newTodo
         })),
       main,
       footer)
