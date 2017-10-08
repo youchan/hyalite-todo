@@ -18,4 +18,4 @@
         Part of
         %a(href="http://todomvc.com") TodoMVC
 
-    = javascript_include_tag 'application'
+    = ::Opal::Sprockets.javascript_include_tag('application', sprockets: settings.opal.sprockets, prefix: 'assets', debug: true)
